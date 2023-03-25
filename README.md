@@ -14,8 +14,8 @@ Connecting the Macropad to a PC is a breeze, as it simply plugs in via USB. Once
 ## CH552E 8-bit USB Device Microcontroller
 The CH552E is a low-cost, enhanced E8051 core microcontroller compatible with the MCS51 instruction set. It has an integrated USB 2.0 controller with full-speed data transfer (12 Mbit/s) and supports up to 64 byte data packets with integrated FIFO and direct memory access (DMA). The CH552E has a factory built-in bootloader so firmware can be uploaded directly via USB without the need for an additional programming device.
 
-![Macropad_mini_pic2.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic2.jpg)
 ![Macropad_mini_pic3.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic3.jpg)
+![Macropad_mini_pic2.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic2.jpg)
 
 # Compiling and Installing Firmware
 ## Installing Toolchain for CH55x
