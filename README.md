@@ -5,17 +5,17 @@ Each button on the MacroPad is also equipped with an addressable LED (NeoPixel),
 
 Connecting the MacroPad to a PC is a breeze, as it simply plugs in via USB. Once connected, the MacroPad is immediately recognized by the PC as an HID multimedia keyboard, meaning that it requires no special drivers to function. This makes the MacroPad an incredibly user-friendly and accessible option for those looking to expand their keyboard capabilities.
 
-![MacroPad_mini_pic1.jpg](https://raw.githubusercontent.com/wagiminator/CH552-MacroPad-mini/main/documentation/MacroPad_mini_pic1.jpg)
+![Macropad_mini_pic1.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic1.jpg)
 
 # Hardware
 ## Schematic
-![MacroPad_mini_wiring.png](https://raw.githubusercontent.com/wagiminator/CH552-MacroPad-mini/main/documentation/MacroPad_mini_wiring.png)
+![Macropad_mini_wiring.png](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_wiring.png)
 
 ## CH552E 8-bit USB Device Microcontroller
 The CH552E is a low-cost, enhanced E8051 core microcontroller compatible with the MCS51 instruction set. It has an integrated USB 2.0 controller with full-speed data transfer (12 Mbit/s) and supports up to 64 byte data packets with integrated FIFO and direct memory access (DMA). The CH552E has a factory built-in bootloader so firmware can be uploaded directly via USB without the need for an additional programming device.
 
-![MacroPad_mini_pic3.jpg](https://raw.githubusercontent.com/wagiminator/CH552-MacroPad-mini/main/documentation/MacroPad_mini_pic3.jpg)
-![MacroPad_mini_pic2.jpg](https://raw.githubusercontent.com/wagiminator/CH552-MacroPad-mini/main/documentation/MacroPad_mini_pic2.jpg)
+![Macropad_mini_pic3.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic3.jpg)
+![Macropad_mini_pic2.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic2.jpg)
 
 # Compiling and Installing Firmware
 ## Installing Toolchain for CH55x
@@ -49,8 +49,8 @@ Open a terminal and navigate to the folder with the makefile. Run ```make flash`
 2. [CH551/552 Datasheet](http://www.wch-ic.com/downloads/CH552DS1_PDF.html)
 3. [SDCC Compiler](https://sdcc.sourceforge.net/)
 
-![MacroPad_mini_pic4.jpg](https://raw.githubusercontent.com/wagiminator/CH552-MacroPad-mini/main/documentation/MacroPad_mini_pic4.jpg)
-![MacroPad_mini_pic5.jpg](https://raw.githubusercontent.com/wagiminator/CH552-MacroPad-mini/main/documentation/MacroPad_mini_pic5.jpg)
+![Macropad_mini_pic4.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic4.jpg)
+![Macropad_mini_pic5.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic5.jpg)
 
 # License
 ![license.png](https://i.creativecommons.org/l/by-sa/3.0/88x31.png)
