@@ -1,6 +1,6 @@
 // ===================================================================================
 // Project:   MacroPad Mini for CH551, CH552 and CH554
-// Version:   v1.0
+// Version:   v1.1
 // Year:      2023
 // Author:    Stefan Wagner
 // Github:    https://github.com/wagiminator
@@ -32,7 +32,10 @@
 // Operating Instructions:
 // -----------------------
 // - Connect the board via USB to your PC. It should be detected as a HID keyboard.
-// - Press a macro key.
+// - Press a macro key and see what happens.
+// - To enter bootloader hold down key 1 while connecting the MacroPad to USB. All
+//   NeoPixels will light up white as long as the device is in bootloader mode 
+//   (about 10 seconds).
 
 
 // ===================================================================================
@@ -78,12 +81,20 @@ void main(void) {
   __bit key1last = 0;                       // last state of key 1
   __bit key2last = 0;                       // last state of key 2
   __bit key3last = 0;                       // last state of key 3
+  __idata uint8_t i;                        // temp variable
+
+  // Enter bootloader if key 1 is pressed
+  NEO_init();                               // init NeoPixels
+  if(!PIN_read(PIN_KEY1)) {                 // key 1 pressed?
+    NEO_latch();                            // make sure pixels are ready
+    for(i=9; i; i--) NEO_sendByte(127);     // light up all pixels
+    BOOT_now();                             // enter bootloader
+  }
 
   // Setup
   CLK_config();                             // configure system clock
   DLY_ms(5);                                // wait for clock to settle
   KBD_init();                               // init USB HID keyboard
-  NEO_init();                               // init NeoPixel
   WDT_start();                              // start watchdog timer
 
   // Loop
