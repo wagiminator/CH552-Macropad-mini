@@ -1,6 +1,6 @@
 // ===================================================================================
 // Project:   MacroPad Mini for CH551, CH552 and CH554
-// Version:   v1.1
+// Version:   v1.2
 // Year:      2023
 // Author:    Stefan Wagner
 // Github:    https://github.com/wagiminator
@@ -22,12 +22,14 @@
 // Compilation Instructions:
 // -------------------------
 // - Chip:  CH551, CH552 or CH554
-// - Clock: min. 12 MHz internal
-// - Adjust the firmware parameters in include/config.h if necessary.
+// - Clock: 16 MHz internal
+// - Adjust the firmware parameters in src/config.h if necessary.
 // - Make sure SDCC toolchain and Python3 with PyUSB is installed.
 // - Press BOOT button on the board and keep it pressed while connecting it via USB
 //   with your PC.
-// - Run 'make flash'.
+// - Run 'make flash' immediatly afterwards.
+// - To compile the firmware using the Arduino IDE, follow the instructions in the 
+//   .ino file.
 //
 // Operating Instructions:
 // -----------------------
@@ -43,11 +45,11 @@
 // ===================================================================================
 
 // Libraries
-#include <config.h>                         // user configurations
-#include <system.h>                         // system functions
-#include <delay.h>                          // delay functions
-#include <neo.h>                            // NeoPixel functions
-#include <usb_conkbd.h>                     // USB HID consumer keyboard functions
+#include "src/config.h"                     // user configurations
+#include "src/system.h"                     // system functions
+#include "src/delay.h"                      // delay functions
+#include "src/neo.h"                        // NeoPixel functions
+#include "src/usb_conkbd.h"                 // USB HID consumer keyboard functions
 
 // Prototypes for used interrupts
 void USB_interrupt(void);
@@ -83,17 +85,18 @@ void main(void) {
   __bit key3last = 0;                       // last state of key 3
   __idata uint8_t i;                        // temp variable
 
-  // Enter bootloader if key 1 is pressed
+  // Setup
   NEO_init();                               // init NeoPixels
+  CLK_config();                             // configure system clock
+  DLY_ms(10);                               // wait for clock to settle
+
+  // Enter bootloader if key 1 is pressed
   if(!PIN_read(PIN_KEY1)) {                 // key 1 pressed?
-    NEO_latch();                            // make sure pixels are ready
     for(i=9; i; i--) NEO_sendByte(127);     // light up all pixels
     BOOT_now();                             // enter bootloader
   }
 
-  // Setup
-  CLK_config();                             // configure system clock
-  DLY_ms(5);                                // wait for clock to settle
+  // Init USB keyboard
   KBD_init();                               // init USB HID keyboard
   WDT_start();                              // start watchdog timer
 
