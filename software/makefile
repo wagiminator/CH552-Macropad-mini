@@ -8,8 +8,8 @@
 # ===================================================================================
 
 # Input and Output File Names
-SKETCH     = macropad.c
-TARGET     = macropad
+SKETCH     = macropad_mini.c
+TARGET     = macropad_mini
 INCLUDE    = src
 
 # Microcontroller Settings

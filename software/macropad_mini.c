@@ -1,6 +1,6 @@
 // ===================================================================================
 // Project:   MacroPad Mini for CH551, CH552 and CH554
-// Version:   v1.2
+// Version:   v1.3
 // Year:      2023
 // Author:    Stefan Wagner
 // Github:    https://github.com/wagiminator
@@ -24,6 +24,7 @@
 // - Chip:  CH551, CH552 or CH554
 // - Clock: 16 MHz internal
 // - Adjust the firmware parameters in src/config.h if necessary.
+// - Customize the macro functions in the corresponding section below.
 // - Make sure SDCC toolchain and Python3 with PyUSB is installed.
 // - Press BOOT button on the board and keep it pressed while connecting it via USB
 //   with your PC.
@@ -55,6 +56,77 @@
 void USB_interrupt(void);
 void USB_ISR(void) __interrupt(INT_NO_USB) {
   USB_interrupt();
+}
+
+#pragma disable_warning 110                 // Keep calm, EVELYN!
+
+// ===================================================================================
+// Macro Functions which associate Actions with Events (Customize your MacroPad here!)
+// ===================================================================================
+//
+// The list of available USB HID functions can be found in src/usb_conkbd.h
+
+// Key 1 example -> Linux open terminal and run shutdown command
+// -------------------------------------------------------------
+
+// Define action(s) if key1 was pressed
+inline void KEY1_PRESSED() {
+  KBD_press(KBD_KEY_LEFT_GUI);                        // press left WIN key
+  KBD_type('t');                                      // press and release 'T' key
+  KBD_release(KBD_KEY_LEFT_GUI);                      // release left WIN key
+  DLY_ms(500);                                        // wait for terminal to open
+  KBD_print("sudo shutdown -h now");                  // type shutdown command
+  KBD_type(KBD_KEY_RETURN);                           // press and release RETURN key
+}
+
+// Define action(s) if key1 was released
+inline void KEY1_RELEASED() {
+                                                      // nothing to do
+}
+
+// Define action(s) when key1 is held
+inline void KEY1_HOLD() {
+                                                      // nothing to do
+}
+
+// Key 2 example -> CTRL + ALT + DEL (shutdown)
+// --------------------------------------------
+
+// Define action(s) if key2 was pressed
+inline void KEY2_PRESSED() {
+  KBD_press(KBD_KEY_LEFT_CTRL);                       // press left CTRL key
+  KBD_press(KBD_KEY_LEFT_ALT);                        // press left ALT key
+  KBD_press(KBD_KEY_DELETE);                          // press DEL key
+}
+
+// Define action(s) if key2 was released
+inline void KEY2_RELEASED() {
+  KBD_release(KBD_KEY_DELETE);                        // release DEL key
+  KBD_release(KBD_KEY_LEFT_ALT);                      // release left ALT key
+  KBD_release(KBD_KEY_LEFT_CTRL);                     // release left CTRL key
+}
+
+// Define action(s) when key2 is held
+inline void KEY2_HOLD() {
+                                                      // nothing to do
+}
+
+// Key 3 example -> consumer key (volume mute)
+// -------------------------------------------
+
+// Define action(s) if key3 was pressed
+inline void KEY3_PRESSED() {
+  CON_press(CON_VOL_MUTE);                            // press VOLUME MUTE consumer key
+}
+
+// Define action(s) if key3 was released
+inline void KEY3_RELEASED() {
+  CON_release(CON_VOL_MUTE);                          // release VOLUME MUTE consumer key
+}
+
+// Define action(s) when key3 is held
+inline void KEY3_HOLD() {
+                                                      // nothing to do
 }
 
 // ===================================================================================
@@ -108,19 +180,15 @@ void main(void) {
       if(key1last) {                        // key was pressed?
         neo1 = 127;                         // light up corresponding NeoPixel
         NEO_update();                       // update NeoPixels NOW!
-        KBD_press(KBD_KEY_LEFT_GUI);        // press LEFT GUI key
-        KBD_type('t');                      // press and release 'T' to open terminal
-        DLY_ms(500);                        // wait for terminal to open
-        KBD_release(KBD_KEY_LEFT_GUI);      // release LEFT GUI key
-        KBD_print("sudo shutdown -h now");  // type command
-        KBD_type(KBD_KEY_RETURN);           // press and release RETURN key
+        KEY1_PRESSED();                     // take proper action
       }
       else {                                // key was released?
-                                            // nothing to do in this case
+        KEY1_RELEASED();                    // take proper action
       }
     }
     else if(key1last) {                     // key still being pressed?
-                                            // nothing to do in this case
+      neo1 = 127;                           // keep NeoPixel on
+      KEY1_HOLD();                          // take proper action
     }
 
     // Handle key 2 - shortcut example (CTRL + ALT + DEL)
@@ -129,18 +197,15 @@ void main(void) {
       if(key2last) {                        // key was pressed?
         neo2 = 127;                         // light up corresponding NeoPixel
         NEO_update();                       // update NeoPixels NOW!
-        KBD_press(KBD_KEY_LEFT_CTRL);       // press LEFT CTRL key
-        KBD_press(KBD_KEY_LEFT_ALT);        // press LEFT ALT key
-        KBD_press(KBD_KEY_DELETE);          // press DEL key
+        KEY2_PRESSED();                     // take proper action
       }
       else {                                // key was released?
-        KBD_release(KBD_KEY_DELETE);        // release DEL key
-        KBD_release(KBD_KEY_LEFT_ALT);      // release LEFT ALT key
-        KBD_release(KBD_KEY_LEFT_CTRL);     // release LEFT CTRL key
+        KEY2_RELEASED();                    // take proper action
       }
     }
     else if(key2last) {                     // key still being pressed?
       neo2 = 127;                           // keep NeoPixel on
+      KEY2_HOLD();                          // take proper action
     }
 
     // Handle key 3 - consumer key example (volume mute)
@@ -148,14 +213,16 @@ void main(void) {
       key3last = !key3last;                 // update last state flag
       if(key3last) {                        // key was pressed?
         neo3 = 127;                         // light up corresponding NeoPixel
-        CON_press(CON_VOL_MUTE);            // press VOLUME MUTE consumer key
+        NEO_update();                       // update NeoPixels NOW!
+        KEY3_PRESSED();                     // take proper action
       }
       else {                                // key was released?
-        CON_release(CON_VOL_MUTE);          // release VOLUME MUTE consumer key
+        KEY3_RELEASED();                    // take proper action
       }
     }
     else if(key3last) {                     // key still being pressed?
       neo3 = 127;                           // keep NeoPixel on
+      KEY3_HOLD();                          // take proper action
     }
 
     // Update NeoPixels

@@ -14,10 +14,21 @@ Connecting the MacroPad to a PC is a breeze, as it simply plugs in via USB. Once
 ## CH552E 8-bit USB Device Microcontroller
 The CH552E is a low-cost, enhanced E8051 core microcontroller compatible with the MCS51 instruction set. It has an integrated USB 2.0 controller with full-speed data transfer (12 Mbit/s) and supports up to 64 byte data packets with integrated FIFO and direct memory access (DMA). The CH552E has a factory built-in bootloader so firmware can be uploaded directly via USB without the need for an additional programming device.
 
+## Buildung Instructions
+1. Take the Gerber files and send them to a PCB manufacturer of your choosing. They will use these files to create the circuit board for your device.
+2. Once you have the PCB, you can start soldering the components onto it. Use the BOM (bill of materials) and schematic as a guide to make sure everything is connected correctly.
+3. Upload the firmware by following the instructions in the next section (see below).
+4. To create the case for your device, use the STL files with your 3D printer. Make sure to use transparent filament for the keycaps.
+5. After printing, secure the PCB to the bottom of the case using four self-tapping M2x5mm screws.
+6. Finally, assemble the case. Place the keycaps onto the switches. Your device is now ready to use!
+
 ![Macropad_mini_pic3.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic3.jpg)
 ![Macropad_mini_pic2.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic2.jpg)
 
-# Compiling and Installing Firmware
+# Modifying, Compiling and Installing Firmware
+## Customizing the Firmware
+The definition of the macros and their assignment to individual key events is done by adjusting the firmware accordingly, which allows maximum freedom and flexibility. To do this, open the macropad_mini.c file and edit the section with the macro functions. The source code is commented in such a way that it should be possible to make adjustments even with basic programming skills.
+
 ## Preparing the CH55x Bootloader
 ### Installing Drivers for the CH55x Bootloader
 On Linux you do not need to install a driver. However, by default Linux will not expose enough permission to upload your code with the USB bootloader. In order to fix this, open a terminal and run the following commands:
@@ -48,7 +59,7 @@ sudo pip install pyusb
 - Navigate to the folder with the makefile. 
 - Connect the board and make sure the CH55x is in bootloader mode. 
 - Run ```make flash``` to compile and upload the firmware. 
-- If you don't want to compile the firmware yourself, you can also upload the precompiled binary. To do this, just run ```python3 ./tools/chprog.py macropad.bin```.
+- If you don't want to compile the firmware yourself, you can also upload the precompiled binary. To do this, just run ```python3 ./tools/chprog.py macropad_mini.bin```.
 
 ## Compiling and Uploading using the Arduino IDE
 ### Installing the Arduino IDE and CH55xduino
@@ -69,6 +80,8 @@ Install the [Arduino IDE](https://www.arduino.cc/en/software) if you haven't alr
 1. [EasyEDA Design Files](https://oshwlab.com/wagiminator)
 2. [CH551/552 Datasheet](http://www.wch-ic.com/downloads/CH552DS1_PDF.html)
 3. [SDCC Compiler](https://sdcc.sourceforge.net/)
+4. [CH552G MacroPad plus](https://github.com/wagiminator/CH552-MacroPad-plus)
+5. [CH552E USB Knob](https://github.com/wagiminator/CH552-USB-Knob)
 
 ![Macropad_mini_pic4.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic4.jpg)
 ![Macropad_mini_pic5.jpg](https://raw.githubusercontent.com/wagiminator/CH552-Macropad-mini/main/documentation/Macropad_mini_pic5.jpg)
